@@ -251,9 +251,15 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="signBtnPressed:" destination="mUi-1o-HOr" eventType="touchUpInside" id="ISV-st-gNn"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKw-uF-cKp" userLabel="Status">
-                                <rect key="frame" x="193" y="634" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKw-uF-cKp" userLabel="Status">
+                                <rect key="frame" x="39" y="634" width="350" height="20.333333333333371"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="350" id="0BE-JG-VtD"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -286,9 +292,11 @@
                     <connections>
                         <outlet property="confirmPasswordLabel" destination="AFo-F7-4km" id="tua-3q-lvc"/>
                         <outlet property="confirmPasswordTextField" destination="UI4-nW-7mU" id="fNc-M6-cyf"/>
+                        <outlet property="passwordTextField" destination="Efk-ot-FHF" id="b7A-zK-W2d"/>
                         <outlet property="segCtrl" destination="ERj-Ts-BKs" id="QO8-QS-Ufe"/>
                         <outlet property="signButton" destination="5rr-i0-Ddo" id="fAa-LU-fhl"/>
                         <outlet property="statusLabel" destination="dKw-uF-cKp" id="eSb-WP-spk"/>
+                        <outlet property="userIDTextField" destination="lDz-d1-Tvg" id="fpM-Fw-ZwK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="04z-N1-LZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

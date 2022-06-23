@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var segCtrl: UISegmentedControl!
+    
+    @IBOutlet weak var userIDTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var signButton: UIButton!
@@ -22,6 +26,8 @@ class LoginViewController: UIViewController {
         confirmPasswordLabel.isHidden = true
         confirmPasswordTextField.isHidden = true
         signButton.setTitle("Sign in", for: .normal)
+        statusLabel.text = ""
+        
     }
     
     @IBAction func onSegmentChanged(_ sender: Any) {
@@ -41,5 +47,51 @@ class LoginViewController: UIViewController {
         }
     }
     
+    
+    @IBAction func signBtnPressed(_ sender: Any) {
+        
+        if segCtrl.selectedSegmentIndex == 0 {
+            doSignIn()
+        } else {
+            doSignUp()
+        }
+        
+    }
+    
+    func doSignIn() {
+        let userID = userIDTextField.text!
+        let password = passwordTextField.text!
+        Auth.auth().signIn(withEmail: userID, password: password) {
+            authResult, error in
+            if let error = error as NSError? {
+                self.statusLabel.text = "\(error.localizedDescription)"
+            } else {
+                self.statusLabel.text = "Signed in successfully"
+            }
+        }
+        
+        
+    }
+    
+    func doSignUp() {
+        
+        let userID = userIDTextField.text!
+        let password = passwordTextField.text!
+        let confirmPassword = confirmPasswordTextField.text!
+        
+        if (password == confirmPassword){
+            Auth.auth().createUser(withEmail: userID, password: password) {
+                authResult, error in
+                if let error = error as NSError? {
+                    self.statusLabel.text = "\(error.localizedDescription)"
+                } else {
+                    self.statusLabel.text = "Account is created (from Firebase)"
+                }
+            }
+        } else {
+            statusLabel.text = "Password does not match confirmed password."
+        }
+    
+    }
     
 }
