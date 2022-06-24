@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol PizzaProtocol {
     func addPizza(_ newPizza: Pizza)
@@ -58,6 +59,18 @@ class ViewController: UIViewController, PizzaProtocol, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pizzaList.count
+    }
+    
+    
+    
+    @IBAction func logOutBtnPressed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.dismiss(animated: true, completion: nil)
+        } catch {
+            print("Sign out error")
+        }
+        
     }
 }
 
