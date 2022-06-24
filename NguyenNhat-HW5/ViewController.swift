@@ -10,24 +10,28 @@
 
 import UIKit
 import FirebaseAuth
+import CoreData
 
-protocol PizzaProtocol {
-    func addPizza(_ newPizza: Pizza)
-}
 
-class ViewController: UIViewController, PizzaProtocol, UITableViewDelegate, UITableViewDataSource {
+
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
     let createPizzaSegueIdentifier = "CreatePizzaSegue"
     let pizzaCellIdentifier = "PizzaCell"
-    var testPizza = Pizza("tsize", "tcrust", "tcheese", "tmeat", "tveggies")
-    var pizzaList: [Pizza] = []
     @IBOutlet weak var tableView: UITableView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -37,10 +41,6 @@ class ViewController: UIViewController, PizzaProtocol, UITableViewDelegate, UITa
         }
     }
     
-    //adding a pizza to pizza list
-    func addPizza(_ newPizza: Pizza) {
-        pizzaList.append(newPizza)
-    }
     
     //override viewWillAppear to make table view reload data
     //and hide back button in the main view controller
@@ -51,16 +51,29 @@ class ViewController: UIViewController, PizzaProtocol, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell (withIdentifier: pizzaCellIdentifier, for: indexPath as IndexPath)
-        let row = indexPath.row
-        cell.textLabel?.text = pizzaList[row].pSize
-        cell.detailTextLabel?.text = Pizza.printDetailTabelCell(pizzaList[row])
+        //let row = indexPath.row
+        let fetchResults = retrievePizzas()
+        for pizza in fetchResults {
+            if let pSize = pizza.value(forKey:"pSize") {
+                if let crust = pizza.value(forKey:"crust") {
+                    if let cheese = pizza.value(forKey: "cheese") {
+                        if let meat = pizza.value(forKey: "meat") {
+                            if let veggies = pizza.value(forKey: "veggies") {
+                                cell.textLabel?.text = pSize as! String
+                                cell.detailTextLabel?.text = printDetailTabelCell(crust as! String, cheese as! String, meat as! String, veggies as! String)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pizzaList.count
+        let fetchResults = retrievePizzas()
+        return fetchResults.count
     }
-    
     
     
     @IBAction func logOutBtnPressed(_ sender: Any) {
@@ -71,6 +84,60 @@ class ViewController: UIViewController, PizzaProtocol, UITableViewDelegate, UITa
             print("Sign out error")
         }
         
+    }
+    
+    func clearCoreData() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pizza")
+        var fetchedResults:[NSManagedObject]
+        
+        do {
+            try fetchedResults = context.fetch(request) as! [NSManagedObject]
+            
+            if fetchedResults.count > 0 {
+                
+                for result:AnyObject in fetchedResults {
+                    context.delete(result as! NSManagedObject)
+                    print("\(result.value(forKey: "name")!) has been Deleted")
+                }
+            }
+            try context.save()
+            
+        } catch {
+            // If an error occurs
+            let nserror = error as NSError
+            NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+            abort()
+        }
+        
+    }
+    
+    func retrievePizzas() -> [NSManagedObject] {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"Pizza")
+        var fetchedResults:[NSManagedObject]? = nil
+        
+        do {
+            try fetchedResults = context.fetch(request) as? [NSManagedObject]
+        } catch {
+            // If an error occurs
+            let nserror = error as NSError
+            NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+            abort()
+        }
+        
+        return(fetchedResults)!
+        
+    }
+    
+    //print string for subtitle of a pizza in a table cell
+    func printDetailTabelCell(_ crust: String, _ cheese: String, _ meat: String, _ veggies: String) -> String {
+        return ("\t\(crust)\n\t\(cheese)\n\t\(meat)\n\t\(veggies)")
     }
 }
 

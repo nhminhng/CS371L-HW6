@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var segCtrl: UISegmentedControl!
     
@@ -23,6 +23,11 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        userIDTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+        passwordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.isSecureTextEntry = true
         confirmPasswordLabel.isHidden = true
         confirmPasswordTextField.isHidden = true
         signButton.setTitle("Sign in", for: .normal)
@@ -39,6 +44,23 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
+    // Called when 'return' key pressed
+    
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        userIDTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        confirmPasswordTextField.resignFirstResponder()
+        return true
+    }
+    
+    // Called when the user clicks on the view outside of the UITextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    
+    
     
     @IBAction func onSegmentChanged(_ sender: Any) {
         switch segCtrl.selectedSegmentIndex {

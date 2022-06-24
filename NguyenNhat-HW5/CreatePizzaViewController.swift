@@ -9,6 +9,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CreatePizzaViewController: UIViewController {
 
@@ -89,10 +90,13 @@ class CreatePizzaViewController: UIViewController {
             controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(controller, animated: true, completion: nil)
         } else {
-            let newPizza = Pizza(pSize, crust, cheese, meat, veggies)
-            summaryLabel.text = Pizza.printDetail(newPizza)
-            let otherVC = delegate as! PizzaProtocol
-            otherVC.addPizza(newPizza)
+                storePizza(pSize, crust, cheese, meat, veggies)
+                summaryLabel.text = printDetail(pSize, crust, cheese, meat, veggies)
+            
+//            let newPizza = Pizza(pSize, crust, cheese, meat, veggies)
+//            summaryLabel.text = Pizza.printDetail(newPizza)
+//            let otherVC = delegate as! PizzaProtocol
+//            otherVC.addPizza(newPizza)
         }
     }
     
@@ -115,5 +119,39 @@ class CreatePizzaViewController: UIViewController {
         else {
             return nil
         }
+    }
+    
+    //printing detail of a pizza inside a
+    //CreatePizzaViewController when one is created
+    func printDetail(_ pSize: String, _ crust: String, _ cheese: String, _ meat: String, _ veggies: String) -> String {
+        return ("One \(pSize) pizza with:\n\t\(crust)\n\t\(cheese)\n\t\(meat)\n\t\(veggies)")
+    }
+    
+    
+    func storePizza(_ pSize: String, _ crust: String, _ cheese: String, _ meat: String, _ veggies: String) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let pizza = NSEntityDescription.insertNewObject(
+            forEntityName: "Pizza", into: context)
+        
+        // Set the attribute values
+        pizza.setValue(pSize, forKey: "pSize")
+        pizza.setValue(crust, forKey: "crust")
+        pizza.setValue(cheese, forKey: "cheese")
+        pizza.setValue(meat, forKey: "meat")
+        pizza.setValue(veggies, forKey: "veggies")
+        
+        // Commit the changes
+        do {
+            try context.save()
+        } catch {
+            // If an error occurs
+            let nserror = error as NSError
+            NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+            abort()
+        }
+        
     }
 }

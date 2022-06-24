@@ -15,7 +15,6 @@
 		0624F251285FEC8900439787 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0624F250285FEC8900439787 /* Assets.xcassets */; };
 		0624F254285FEC8900439787 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0624F252285FEC8900439787 /* LaunchScreen.storyboard */; };
 		0624F25E285FF35E00439787 /* CreatePizzaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0624F25D285FF35E00439787 /* CreatePizzaViewController.swift */; };
-		0624F260285FF7C500439787 /* Pizza.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0624F25F285FF7C500439787 /* Pizza.swift */; };
 		06568AAB286513E000D64A39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06568AAA286513E000D64A39 /* GoogleService-Info.plist */; };
 		06568AAE286514F500D64A39 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 06568AAD286514F500D64A39 /* FirebaseAuth */; };
 		74D4B2DE2864F01600D6C366 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D4B2DD2864F01600D6C366 /* LoginViewController.swift */; };
@@ -32,7 +31,6 @@
 		0624F253285FEC8900439787 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0624F255285FEC8900439787 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0624F25D285FF35E00439787 /* CreatePizzaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePizzaViewController.swift; sourceTree = "<group>"; };
-		0624F25F285FF7C500439787 /* Pizza.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pizza.swift; sourceTree = "<group>"; };
 		06568AAA286513E000D64A39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74D4B2DD2864F01600D6C366 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,7 +69,6 @@
 				0624F244285FEC8900439787 /* AppDelegate.swift */,
 				0624F246285FEC8900439787 /* SceneDelegate.swift */,
 				0624F248285FEC8900439787 /* ViewController.swift */,
-				0624F25F285FF7C500439787 /* Pizza.swift */,
 				0624F24A285FEC8900439787 /* Main.storyboard */,
 				74D4B2DD2864F01600D6C366 /* LoginViewController.swift */,
 				0624F25D285FF35E00439787 /* CreatePizzaViewController.swift */,
@@ -165,7 +162,6 @@
 				74D4B2DE2864F01600D6C366 /* LoginViewController.swift in Sources */,
 				0624F249285FEC8900439787 /* ViewController.swift in Sources */,
 				0624F245285FEC8900439787 /* AppDelegate.swift in Sources */,
-				0624F260285FF7C500439787 /* Pizza.swift in Sources */,
 				0624F247285FEC8900439787 /* SceneDelegate.swift in Sources */,
 				0624F24F285FEC8900439787 /* NguyenNhat_HW5.xcdatamodeld in Sources */,
 				0624F25E285FF35E00439787 /* CreatePizzaViewController.swift in Sources */,
