@@ -53,20 +53,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell (withIdentifier: pizzaCellIdentifier, for: indexPath as IndexPath)
         //let row = indexPath.row
         let fetchResults = retrievePizzas()
-        for pizza in fetchResults {
-            if let pSize = pizza.value(forKey:"pSize") {
-                if let crust = pizza.value(forKey:"crust") {
-                    if let cheese = pizza.value(forKey: "cheese") {
-                        if let meat = pizza.value(forKey: "meat") {
-                            if let veggies = pizza.value(forKey: "veggies") {
-                                cell.textLabel?.text = pSize as! String
-                                cell.detailTextLabel?.text = printDetailTabelCell(crust as! String, cheese as! String, meat as! String, veggies as! String)
-                            }
+        let pizza = fetchResults[indexPath.row]
+        if let pSize = pizza.value(forKey:"pSize") {
+            if let crust = pizza.value(forKey:"crust") {
+                if let cheese = pizza.value(forKey: "cheese") {
+                    if let meat = pizza.value(forKey: "meat") {
+                        if let veggies = pizza.value(forKey: "veggies") {
+                            cell.textLabel?.text = pSize as! String
+                            cell.detailTextLabel?.text = printDetailTabelCell(crust as! String, cheese as! String, meat as! String, veggies as! String)
                         }
                     }
                 }
             }
         }
+        
         return cell
     }
     
@@ -74,6 +74,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fetchResults = retrievePizzas()
         return fetchResults.count
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let fetchResults = retrievePizzas()
+            let pizza = fetchResults[indexPath.row]
+            context.delete(pizza)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            do {
+                try context.save()
+            } catch {
+                // If an error occurs
+                let nserror = error as NSError
+                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+                abort()
+            }
+        }
+    }
+
     
     
     @IBAction func logOutBtnPressed(_ sender: Any) {
