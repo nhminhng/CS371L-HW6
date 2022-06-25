@@ -1,6 +1,9 @@
+// Project: NguyenNhat-HW6
+// EID: nn7294
+// Course: CS371L
 //
 //  LoginViewController.swift
-//  NguyenNhat-HW5
+//  NguyenNhat-HW6
 //
 //  Created by Nhat Minh Nguyen on 6/23/22.
 //
@@ -11,7 +14,6 @@ import FirebaseAuth
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var segCtrl: UISegmentedControl!
-    
     @IBOutlet weak var userIDTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
@@ -33,7 +35,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         signButton.setTitle("Sign in", for: .normal)
         statusLabel.text = ""
         
-        
         Auth.auth().addStateDidChangeListener() {
             auth, user in
             if user != nil {
@@ -48,8 +49,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         statusLabel.text = ""
     }
-    // Called when 'return' key pressed
     
+    // Called when 'return' key pressed
     func textFieldShouldReturn(_ textField:UITextField) -> Bool {
         userIDTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -62,9 +63,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    
-    
-    
+    //called when segment control changed
     @IBAction func onSegmentChanged(_ sender: Any) {
         switch segCtrl.selectedSegmentIndex {
         case 0:
@@ -82,17 +81,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
+    //called when sign Btn pressed
     @IBAction func signBtnPressed(_ sender: Any) {
-        
         if segCtrl.selectedSegmentIndex == 0 {
             doSignIn()
         } else {
             doSignUp()
         }
-        
     }
     
+    //doing signing in
     func doSignIn() {
         let userID = userIDTextField.text!
         let password = passwordTextField.text!
@@ -104,16 +102,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.statusLabel.text = "Signed in successfully"
             }
         }
-        
-        
     }
     
+    //doing signing up
     func doSignUp() {
-        
         let userID = userIDTextField.text!
         let password = passwordTextField.text!
         let confirmPassword = confirmPasswordTextField.text!
-        
         if (password == confirmPassword){
             Auth.auth().createUser(withEmail: userID, password: password) {
                 authResult, error in
@@ -126,7 +121,5 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         } else {
             statusLabel.text = "Password does not match confirmed password."
         }
-    
     }
-    
 }

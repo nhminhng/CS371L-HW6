@@ -1,9 +1,9 @@
-// Project: NguyenNhat-HW5
+// Project: NguyenNhat-HW6
 // EID: nn7294
 // Course: CS371L
 //
 //  CreatePizzaViewController.swift
-//  NguyenNhat-HW5
+//  NguyenNhat-HW6
 //
 //  Created by Minh Nguyen on 6/19/22.
 //
@@ -92,11 +92,6 @@ class CreatePizzaViewController: UIViewController {
         } else {
                 storePizza(pSize, crust, cheese, meat, veggies)
                 summaryLabel.text = printDetail(pSize, crust, cheese, meat, veggies)
-            
-//            let newPizza = Pizza(pSize, crust, cheese, meat, veggies)
-//            summaryLabel.text = Pizza.printDetail(newPizza)
-//            let otherVC = delegate as! PizzaProtocol
-//            otherVC.addPizza(newPizza)
         }
     }
     
@@ -127,22 +122,18 @@ class CreatePizzaViewController: UIViewController {
         return ("One \(pSize) pizza with:\n\t\(crust)\n\t\(cheese)\n\t\(meat)\n\t\(veggies)")
     }
     
-    
+    //storing a pizza into core data
     func storePizza(_ pSize: String, _ crust: String, _ cheese: String, _ meat: String, _ veggies: String) {
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        
         let pizza = NSEntityDescription.insertNewObject(
             forEntityName: "Pizza", into: context)
-        
         // Set the attribute values
         pizza.setValue(pSize, forKey: "pSize")
         pizza.setValue(crust, forKey: "crust")
         pizza.setValue(cheese, forKey: "cheese")
         pizza.setValue(meat, forKey: "meat")
         pizza.setValue(veggies, forKey: "veggies")
-        
         // Commit the changes
         do {
             try context.save()
@@ -152,6 +143,5 @@ class CreatePizzaViewController: UIViewController {
             NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
             abort()
         }
-        
     }
 }

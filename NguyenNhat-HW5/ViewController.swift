@@ -1,9 +1,9 @@
-// Project: NguyenNhat-HW5
+// Project: NguyenNhat-HW6
 // EID: nn7294
 // Course: CS371L
 //
 //  ViewController.swift
-//  NguyenNhat-HW5
+//  NguyenNhat-HW6
 //
 //  Created by Minh Nguyen on 6/19/22.
 //
@@ -12,21 +12,17 @@ import UIKit
 import FirebaseAuth
 import CoreData
 
-
-
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
     let createPizzaSegueIdentifier = "CreatePizzaSegue"
     let pizzaCellIdentifier = "PizzaCell"
     @IBOutlet weak var tableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,7 +36,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             nextVC.delegate = self
         }
     }
-    
     
     //override viewWillAppear to make table view reload data
     //and hide back button in the main view controller
@@ -66,7 +61,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
-        
         return cell
     }
     
@@ -75,7 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return fetchResults.count
     }
     
-    
+    //called when swiping to delete a row
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -95,8 +89,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 
-    
-    
+    //called when log out btn pressed
     @IBAction func logOutBtnPressed(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -104,45 +97,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch {
             print("Sign out error")
         }
-        
     }
     
+    //clearing core data
     func clearCoreData() {
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pizza")
         var fetchedResults:[NSManagedObject]
-        
         do {
             try fetchedResults = context.fetch(request) as! [NSManagedObject]
-            
             if fetchedResults.count > 0 {
-                
                 for result:AnyObject in fetchedResults {
                     context.delete(result as! NSManagedObject)
                     print("\(result.value(forKey: "name")!) has been Deleted")
                 }
             }
             try context.save()
-            
         } catch {
             // If an error occurs
             let nserror = error as NSError
             NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
             abort()
         }
-        
     }
     
+    //retrieving pizza
     func retrievePizzas() -> [NSManagedObject] {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName:"Pizza")
         var fetchedResults:[NSManagedObject]? = nil
-        
         do {
             try fetchedResults = context.fetch(request) as? [NSManagedObject]
         } catch {
@@ -151,9 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
             abort()
         }
-        
         return(fetchedResults)!
-        
     }
     
     //print string for subtitle of a pizza in a table cell
